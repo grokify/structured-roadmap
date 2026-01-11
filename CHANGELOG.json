@@ -13,29 +13,29 @@
         { "description": "Machine-readable JSON roadmaps with deterministic Markdown generation, modeled after structured-changelog" }
       ],
       "added": [
-        { "description": "JSON IR schema (v1.0) for machine-readable roadmaps" },
-        { "description": "`roadmap` package with IR types, parsing, and validation" },
-        { "description": "`renderer` package with deterministic Markdown generation" },
-        { "description": "`sroadmap` CLI with `validate`, `generate`, `stats`, and `deps` subcommands" },
-        { "description": "Two-dimensional categorization: `area` (project component) + `type` (change type)" },
-        { "description": "Type validation via structured-changelog integration" },
-        { "description": "Multiple grouping strategies: area, type, phase, status, quarter, priority" },
-        { "description": "Phased roadmaps with area sub-sections for large projects" },
-        { "description": "Rich content block support: text, code, diagram, table, list, blockquote" },
-        { "description": "Table of contents with progress counts" },
-        { "description": "Overview table summarizing all items" },
-        { "description": "Version history tracking" },
-        { "description": "Dependency tracking between items with Mermaid/DOT graph generation" },
-        { "description": "Customizable status legend" },
-        { "description": "JSON Schema for IR validation" },
-        { "description": "Example roadmaps: minimal, full" }
+        { "description": "JSON IR schema (v1.0) for machine-readable roadmaps", "commit": "38dc07d" },
+        { "description": "`roadmap` package with IR types, parsing, and validation", "commit": "38dc07d" },
+        { "description": "`renderer` package with deterministic Markdown generation", "commit": "787b8b6" },
+        { "description": "`sroadmap` CLI with `validate`, `generate`, `stats`, and `deps` subcommands", "commit": "e36765c" },
+        { "description": "Two-dimensional categorization: `area` (project component) + `type` (change type)", "commit": "38dc07d" },
+        { "description": "Type validation via structured-changelog integration", "commit": "38dc07d" },
+        { "description": "Multiple grouping strategies: area, type, phase, status, quarter, priority", "commit": "787b8b6" },
+        { "description": "Phased roadmaps with area sub-sections for large projects", "commit": "787b8b6" },
+        { "description": "Rich content block support: text, code, diagram, table, list, blockquote", "commit": "787b8b6" },
+        { "description": "Table of contents with progress counts", "commit": "787b8b6" },
+        { "description": "Overview table summarizing all items", "commit": "787b8b6" },
+        { "description": "Version history tracking", "commit": "787b8b6" },
+        { "description": "Dependency tracking between items with Mermaid/DOT graph generation", "commit": "e36765c" },
+        { "description": "Customizable status legend", "commit": "38dc07d" },
+        { "description": "JSON Schema for IR validation", "commit": "38dc07d" },
+        { "description": "Example roadmaps: minimal, full", "commit": "0f1673a" }
       ],
       "documentation": [
-        { "description": "README with usage guide and examples" },
-        { "description": "PRD documenting schema design decisions" }
+        { "description": "README with usage guide and examples", "commit": "e389396" },
+        { "description": "PRD documenting schema design decisions", "commit": "e389396" }
       ],
       "tests": [
-        { "description": "Unit tests for core functionality" }
+        { "description": "Unit tests for core functionality", "commit": "38dc07d" }
       ]
     }
   ]
