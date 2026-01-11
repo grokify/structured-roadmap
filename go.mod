@@ -3,11 +3,11 @@ module github.com/grokify/structured-roadmap
 go 1.23.0
 
 require (
-	github.com/grokify/structured-changelog v0.5.0
+	github.com/grokify/structured-changelog v0.6.0
 	github.com/spf13/cobra v1.10.2
 )
 
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.9 // indirect
+	github.com/spf13/pflag v1.0.10 // indirect
 )
