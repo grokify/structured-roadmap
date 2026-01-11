@@ -1,0 +1,19 @@
+{
+  "ir_version": "1.0",
+  "project": "my-project",
+  "items": [
+    {
+      "id": "feature-1",
+      "title": "First Feature",
+      "description": "Add the first feature",
+      "status": "completed",
+      "version": "1.0.0"
+    },
+    {
+      "id": "feature-2",
+      "title": "Second Feature",
+      "description": "Add the second feature",
+      "status": "planned"
+    }
+  ]
+}
