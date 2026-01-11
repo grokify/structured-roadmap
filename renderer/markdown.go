@@ -188,9 +188,6 @@ func renderOverviewTable(sb *strings.Builder, r *roadmap.Roadmap, opts Options) 
 
 		// Priority label
 		priority := roadmap.PriorityLabel(item.Priority)
-		if priority == "Unspecified" {
-			priority = "-"
-		}
 
 		// Area name
 		areaName := areaNames[item.Area]
@@ -326,7 +323,7 @@ func buildTOCEntries(r *roadmap.Roadmap, opts Options) []tocEntry {
 			if len(items) == 0 {
 				continue
 			}
-			title := roadmap.PriorityLabel(priority)
+			title := roadmap.PriorityLabelFull(priority)
 			entry := tocEntry{
 				Title:     title,
 				Slug:      slugify(title),
@@ -777,7 +774,7 @@ func renderByPriority(sb *strings.Builder, r *roadmap.Roadmap, opts Options) {
 			continue
 		}
 
-		header := roadmap.PriorityLabel(priority)
+		header := roadmap.PriorityLabelFull(priority)
 		fmt.Fprintf(sb, "## %s\n\n", header)
 		renderItems(sb, items, r, opts)
 

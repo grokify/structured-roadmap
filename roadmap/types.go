@@ -41,8 +41,26 @@ func PriorityOrder(p Priority) int {
 	}
 }
 
-// PriorityLabel returns a human-readable label for a priority.
+// PriorityLabel returns a concise label for a priority.
+// Use this in table cells where the column header provides context.
 func PriorityLabel(p Priority) string {
+	switch p {
+	case PriorityCritical:
+		return "Critical"
+	case PriorityHigh:
+		return "High"
+	case PriorityMedium:
+		return "Medium"
+	case PriorityLow:
+		return "Low"
+	default:
+		return "-"
+	}
+}
+
+// PriorityLabelFull returns a full label for a priority.
+// Use this in section headers and standalone contexts.
+func PriorityLabelFull(p Priority) string {
 	switch p {
 	case PriorityCritical:
 		return "Critical"
@@ -329,4 +347,14 @@ func (s Stats) CompletedPercent() float64 {
 		return 0
 	}
 	return float64(s.CompletedCount()) / float64(s.Total) * 100
+}
+
+// StatusOrder returns the canonical order of statuses for display.
+func StatusOrder() []Status {
+	return []Status{StatusCompleted, StatusInProgress, StatusPlanned, StatusFuture}
+}
+
+// PriorityOrderList returns the canonical order of priorities for display.
+func PriorityOrderList() []Priority {
+	return []Priority{PriorityCritical, PriorityHigh, PriorityMedium, PriorityLow}
 }

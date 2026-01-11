@@ -2,6 +2,7 @@ package roadmap
 
 import (
 	"errors"
+	"strings"
 	"testing"
 )
 
@@ -376,10 +377,10 @@ func TestPriorityLabel(t *testing.T) {
 		want     string
 	}{
 		{PriorityCritical, "Critical"},
-		{PriorityHigh, "High Priority"},
-		{PriorityMedium, "Medium Priority"},
-		{PriorityLow, "Low Priority"},
-		{"unknown", "Unspecified"},
+		{PriorityHigh, "High"},
+		{PriorityMedium, "Medium"},
+		{PriorityLow, "Low"},
+		{"unknown", "-"},
 	}
 
 	for _, tt := range tests {
@@ -561,5 +562,452 @@ func TestFieldError(t *testing.T) {
 	expectedStr := "items[0].id: required field is missing"
 	if err.Error() != expectedStr {
 		t.Errorf("Error() = %q, want %q", err.Error(), expectedStr)
+	}
+}
+
+func TestGetStatusEmoji(t *testing.T) {
+	r := &Roadmap{IRVersion: "1.0", Project: "test"}
+
+	tests := []struct {
+		status Status
+		want   string
+	}{
+		{StatusCompleted, "✅"},
+		{StatusInProgress, "🚧"},
+		{StatusPlanned, "📋"},
+		{StatusFuture, "💡"},
+		{"unknown", ""},
+	}
+
+	for _, tt := range tests {
+		t.Run(string(tt.status), func(t *testing.T) {
+			got := r.GetStatusEmoji(tt.status)
+			if got != tt.want {
+				t.Errorf("GetStatusEmoji(%q) = %q, want %q", tt.status, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestItemsByType(t *testing.T) {
+	r := &Roadmap{
+		IRVersion: "1.0",
+		Project:   "test",
+		Items: []Item{
+			{ID: "1", Title: "Item 1", Status: StatusCompleted, Type: "Added"},
+			{ID: "2", Title: "Item 2", Status: StatusCompleted, Type: "Added"},
+			{ID: "3", Title: "Item 3", Status: StatusCompleted, Type: "Changed"},
+			{ID: "4", Title: "Item 4", Status: StatusCompleted}, // No type
+		},
+	}
+
+	byType := r.ItemsByType()
+
+	if len(byType["Added"]) != 2 {
+		t.Errorf("ItemsByType[Added] = %d items, want 2", len(byType["Added"]))
+	}
+	if len(byType["Changed"]) != 1 {
+		t.Errorf("ItemsByType[Changed] = %d items, want 1", len(byType["Changed"]))
+	}
+	if len(byType["_unspecified"]) != 1 {
+		t.Errorf("ItemsByType[_unspecified] = %d items, want 1", len(byType["_unspecified"]))
+	}
+}
+
+func TestStatusOrder(t *testing.T) {
+	order := StatusOrder()
+	if len(order) != 4 {
+		t.Errorf("StatusOrder() returned %d items, want 4", len(order))
+	}
+	if order[0] != StatusCompleted {
+		t.Errorf("StatusOrder()[0] = %q, want %q", order[0], StatusCompleted)
+	}
+	if order[3] != StatusFuture {
+		t.Errorf("StatusOrder()[3] = %q, want %q", order[3], StatusFuture)
+	}
+}
+
+func TestPriorityOrderList(t *testing.T) {
+	order := PriorityOrderList()
+	if len(order) != 4 {
+		t.Errorf("PriorityOrderList() returned %d items, want 4", len(order))
+	}
+	if order[0] != PriorityCritical {
+		t.Errorf("PriorityOrderList()[0] = %q, want %q", order[0], PriorityCritical)
+	}
+	if order[3] != PriorityLow {
+		t.Errorf("PriorityOrderList()[3] = %q, want %q", order[3], PriorityLow)
+	}
+}
+
+func TestCompletedPercentEmpty(t *testing.T) {
+	stats := Stats{Total: 0, ByStatus: make(map[Status]int)}
+	pct := stats.CompletedPercent()
+	if pct != 0 {
+		t.Errorf("CompletedPercent() with empty stats = %f, want 0", pct)
+	}
+}
+
+func TestToJSON(t *testing.T) {
+	r := &Roadmap{
+		IRVersion: "1.0",
+		Project:   "test-project",
+		Items: []Item{
+			{ID: "item-1", Title: "Test Item", Status: StatusCompleted},
+		},
+	}
+
+	data, err := ToJSON(r)
+	if err != nil {
+		t.Fatalf("ToJSON() error = %v", err)
+	}
+
+	// Parse it back to verify
+	r2, err := Parse(data)
+	if err != nil {
+		t.Fatalf("Parse() error = %v", err)
+	}
+
+	if r2.Project != "test-project" {
+		t.Errorf("Project = %q, want %q", r2.Project, "test-project")
+	}
+	if len(r2.Items) != 1 {
+		t.Errorf("Items = %d, want 1", len(r2.Items))
+	}
+}
+
+func TestWriteFile(t *testing.T) {
+	r := &Roadmap{
+		IRVersion: "1.0",
+		Project:   "test-project",
+	}
+
+	// Write to temp file
+	tmpFile := t.TempDir() + "/roadmap.json"
+	err := WriteFile(tmpFile, r)
+	if err != nil {
+		t.Fatalf("WriteFile() error = %v", err)
+	}
+
+	// Read it back
+	r2, err := ParseFile(tmpFile)
+	if err != nil {
+		t.Fatalf("ParseFile() error = %v", err)
+	}
+
+	if r2.Project != "test-project" {
+		t.Errorf("Project = %q, want %q", r2.Project, "test-project")
+	}
+}
+
+func TestParseError(t *testing.T) {
+	underlying := errors.New("connection refused")
+	parseErr := &ParseError{
+		Op:  "read",
+		Err: underlying,
+	}
+
+	expectedStr := "read: connection refused"
+	if parseErr.Error() != expectedStr {
+		t.Errorf("Error() = %q, want %q", parseErr.Error(), expectedStr)
+	}
+
+	if !errors.Is(parseErr, underlying) {
+		t.Error("Expected Unwrap to return underlying error")
+	}
+
+	unwrapped := parseErr.Unwrap()
+	if unwrapped != underlying {
+		t.Errorf("Unwrap() = %v, want %v", unwrapped, underlying)
+	}
+}
+
+func TestValidationError(t *testing.T) {
+	err := ValidationError{
+		Field:   "ir_version",
+		Message: "required field is missing",
+	}
+
+	errStr := err.Error()
+	if !strings.Contains(errStr, "ir_version") {
+		t.Error("Expected error to contain ir_version")
+	}
+	if !strings.Contains(errStr, "required field is missing") {
+		t.Error("Expected error to contain message")
+	}
+	// Verify the format: "field: message"
+	expected := "ir_version: required field is missing"
+	if errStr != expected {
+		t.Errorf("Error() = %q, want %q", errStr, expected)
+	}
+}
+
+func TestValidationResultWithErrors(t *testing.T) {
+	result := ValidationResult{
+		Valid: false,
+		Errors: []ValidationError{
+			{Field: "ir_version", Message: "required field is missing"},
+			{Field: "project", Message: "required field is missing"},
+		},
+	}
+
+	if result.Valid {
+		t.Error("Expected result.Valid to be false")
+	}
+	if len(result.Errors) != 2 {
+		t.Errorf("Expected 2 errors, got %d", len(result.Errors))
+	}
+}
+
+func TestValidationResultValid(t *testing.T) {
+	result := ValidationResult{
+		Valid:  true,
+		Errors: nil,
+	}
+
+	if !result.Valid {
+		t.Error("Expected result.Valid to be true")
+	}
+	if len(result.Errors) != 0 {
+		t.Errorf("Expected 0 errors, got %d", len(result.Errors))
+	}
+}
+
+func TestItemsByAreaUnspecified(t *testing.T) {
+	r := &Roadmap{
+		IRVersion: "1.0",
+		Project:   "test",
+		Items: []Item{
+			{ID: "1", Title: "Item 1", Status: StatusCompleted, Area: "core"},
+			{ID: "2", Title: "Item 2", Status: StatusCompleted}, // No area
+		},
+	}
+
+	byArea := r.ItemsByArea()
+	if len(byArea["core"]) != 1 {
+		t.Errorf("ItemsByArea[core] = %d items, want 1", len(byArea["core"]))
+	}
+	if len(byArea["_unspecified"]) != 1 {
+		t.Errorf("ItemsByArea[_unspecified] = %d items, want 1", len(byArea["_unspecified"]))
+	}
+}
+
+func TestItemsByPhaseUnphased(t *testing.T) {
+	r := &Roadmap{
+		IRVersion: "1.0",
+		Project:   "test",
+		Items: []Item{
+			{ID: "1", Title: "Item 1", Status: StatusCompleted, Phase: "phase-1"},
+			{ID: "2", Title: "Item 2", Status: StatusCompleted}, // No phase
+		},
+	}
+
+	byPhase := r.ItemsByPhase()
+	if len(byPhase["phase-1"]) != 1 {
+		t.Errorf("ItemsByPhase[phase-1] = %d items, want 1", len(byPhase["phase-1"]))
+	}
+	if len(byPhase["_unphased"]) != 1 {
+		t.Errorf("ItemsByPhase[_unphased] = %d items, want 1", len(byPhase["_unphased"]))
+	}
+}
+
+func TestItemsByPriorityUnspecified(t *testing.T) {
+	r := &Roadmap{
+		IRVersion: "1.0",
+		Project:   "test",
+		Items: []Item{
+			{ID: "1", Title: "Item 1", Status: StatusCompleted, Priority: PriorityHigh},
+			{ID: "2", Title: "Item 2", Status: StatusCompleted}, // No priority
+		},
+	}
+
+	byPriority := r.ItemsByPriority()
+	if len(byPriority[PriorityHigh]) != 1 {
+		t.Errorf("ItemsByPriority[high] = %d items, want 1", len(byPriority[PriorityHigh]))
+	}
+	if len(byPriority["_unspecified"]) != 1 {
+		t.Errorf("ItemsByPriority[_unspecified] = %d items, want 1", len(byPriority["_unspecified"]))
+	}
+}
+
+func TestValidateMoreCases(t *testing.T) {
+	tests := []struct {
+		name      string
+		roadmap   *Roadmap
+		wantValid bool
+	}{
+		{
+			name: "duplicate area ids",
+			roadmap: &Roadmap{
+				IRVersion: "1.0",
+				Project:   "test",
+				Areas: []Area{
+					{ID: "core", Name: "Core"},
+					{ID: "core", Name: "Core 2"}, // Duplicate
+				},
+			},
+			wantValid: false,
+		},
+		{
+			name: "duplicate phase ids",
+			roadmap: &Roadmap{
+				IRVersion: "1.0",
+				Project:   "test",
+				Phases: []Phase{
+					{ID: "phase-1", Name: "Phase 1"},
+					{ID: "phase-1", Name: "Phase 1 Again"}, // Duplicate
+				},
+			},
+			wantValid: false,
+		},
+		{
+			name: "duplicate section ids",
+			roadmap: &Roadmap{
+				IRVersion: "1.0",
+				Project:   "test",
+				Sections: []Section{
+					{ID: "intro", Title: "Intro"},
+					{ID: "intro", Title: "Intro 2"}, // Duplicate
+				},
+			},
+			wantValid: false,
+		},
+		{
+			name: "valid with all priorities",
+			roadmap: &Roadmap{
+				IRVersion: "1.0",
+				Project:   "test",
+				Items: []Item{
+					{ID: "1", Title: "Item 1", Status: StatusCompleted, Priority: PriorityCritical},
+					{ID: "2", Title: "Item 2", Status: StatusCompleted, Priority: PriorityHigh},
+					{ID: "3", Title: "Item 3", Status: StatusCompleted, Priority: PriorityMedium},
+					{ID: "4", Title: "Item 4", Status: StatusCompleted, Priority: PriorityLow},
+				},
+			},
+			wantValid: true,
+		},
+		{
+			name: "item with tasks",
+			roadmap: &Roadmap{
+				IRVersion: "1.0",
+				Project:   "test",
+				Items: []Item{
+					{
+						ID:     "1",
+						Title:  "Item with tasks",
+						Status: StatusInProgress,
+						Tasks: []Task{
+							{Description: "Task 1", Completed: true},
+							{Description: "Task 2", Completed: false},
+						},
+					},
+				},
+			},
+			wantValid: true,
+		},
+		{
+			name: "section with content blocks",
+			roadmap: &Roadmap{
+				IRVersion: "1.0",
+				Project:   "test",
+				Sections: []Section{
+					{
+						ID:    "intro",
+						Title: "Intro",
+						Content: []ContentBlock{
+							{Type: ContentTypeText, Value: "Hello"},
+						},
+					},
+				},
+			},
+			wantValid: true,
+		},
+		{
+			name: "section with invalid content block",
+			roadmap: &Roadmap{
+				IRVersion: "1.0",
+				Project:   "test",
+				Sections: []Section{
+					{
+						ID:    "intro",
+						Title: "Intro",
+						Content: []ContentBlock{
+							{Type: ContentTypeText}, // Missing value
+						},
+					},
+				},
+			},
+			wantValid: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := Validate(tt.roadmap)
+			if result.Valid != tt.wantValid {
+				t.Errorf("Validate() valid = %v, want %v", result.Valid, tt.wantValid)
+				for _, e := range result.Errors {
+					t.Logf("  Error: %s: %s", e.Field, e.Message)
+				}
+			}
+		})
+	}
+}
+
+func TestValidateContentBlocks(t *testing.T) {
+	tests := []struct {
+		name      string
+		content   []ContentBlock
+		wantValid bool
+	}{
+		{
+			name:      "valid code block",
+			content:   []ContentBlock{{Type: ContentTypeCode, Value: "func main() {}", Language: "go"}},
+			wantValid: true,
+		},
+		{
+			name:      "valid diagram",
+			content:   []ContentBlock{{Type: ContentTypeDiagram, Value: "A --> B", Format: "mermaid"}},
+			wantValid: true,
+		},
+		{
+			name:      "valid table",
+			content:   []ContentBlock{{Type: ContentTypeTable, Headers: []string{"A", "B"}, Rows: [][]string{{"1", "2"}}}},
+			wantValid: true,
+		},
+		{
+			name:      "table missing headers",
+			content:   []ContentBlock{{Type: ContentTypeTable, Rows: [][]string{{"1", "2"}}}},
+			wantValid: false,
+		},
+		{
+			name:      "valid list",
+			content:   []ContentBlock{{Type: ContentTypeList, Items: []string{"item1", "item2"}}},
+			wantValid: true,
+		},
+		{
+			name:      "list missing items",
+			content:   []ContentBlock{{Type: ContentTypeList}},
+			wantValid: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := &Roadmap{
+				IRVersion: "1.0",
+				Project:   "test",
+				Items: []Item{
+					{ID: "item-1", Title: "Test", Status: StatusCompleted, Content: tt.content},
+				},
+			}
+			result := Validate(r)
+			if result.Valid != tt.wantValid {
+				t.Errorf("Validate() = %v, want %v", result.Valid, tt.wantValid)
+				for _, e := range result.Errors {
+					t.Logf("  Error: %s: %s", e.Field, e.Message)
+				}
+			}
+		})
 	}
 }
