@@ -1,0 +1,393 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/grokify/structured-roadmap/schema/roadmap.v1.schema.json",
+  "title": "Structured Roadmap IR",
+  "description": "Intermediate Representation for project roadmaps",
+  "type": "object",
+  "required": ["ir_version", "project"],
+  "properties": {
+    "ir_version": {
+      "type": "string",
+      "description": "Schema version",
+      "enum": ["1.0"]
+    },
+    "project": {
+      "type": "string",
+      "description": "Project name"
+    },
+    "repository": {
+      "type": "string",
+      "format": "uri",
+      "description": "Repository URL"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Generation timestamp"
+    },
+    "legend": {
+      "type": "object",
+      "description": "Custom status legend",
+      "additionalProperties": {
+        "$ref": "#/definitions/legendEntry"
+      }
+    },
+    "areas": {
+      "type": "array",
+      "description": "Project areas/components",
+      "items": {
+        "$ref": "#/definitions/area"
+      }
+    },
+    "phases": {
+      "type": "array",
+      "description": "Development phases",
+      "items": {
+        "$ref": "#/definitions/phase"
+      }
+    },
+    "items": {
+      "type": "array",
+      "description": "Roadmap items",
+      "items": {
+        "$ref": "#/definitions/item"
+      }
+    },
+    "sections": {
+      "type": "array",
+      "description": "Freeform content sections",
+      "items": {
+        "$ref": "#/definitions/section"
+      }
+    },
+    "version_history": {
+      "type": "array",
+      "description": "Version milestones",
+      "items": {
+        "$ref": "#/definitions/versionEntry"
+      }
+    },
+    "dependencies": {
+      "$ref": "#/definitions/dependencies"
+    }
+  },
+  "definitions": {
+    "status": {
+      "type": "string",
+      "enum": ["completed", "in_progress", "planned", "future"],
+      "description": "Status of an item or phase"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"],
+      "description": "Priority level"
+    },
+    "legendEntry": {
+      "type": "object",
+      "required": ["emoji", "description"],
+      "properties": {
+        "emoji": {
+          "type": "string",
+          "description": "Emoji or symbol for this status"
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description"
+        }
+      }
+    },
+    "area": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Area identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name"
+        },
+        "priority": {
+          "type": "integer",
+          "description": "Sort order (lower = higher priority)"
+        }
+      }
+    },
+    "phase": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Phase identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Phase name (e.g., 'Phase 1: Foundation')"
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "order": {
+          "type": "integer",
+          "description": "Sort order"
+        },
+        "description": {
+          "type": "string",
+          "description": "Phase description"
+        }
+      }
+    },
+    "item": {
+      "type": "object",
+      "required": ["id", "title", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique item identifier"
+        },
+        "title": {
+          "type": "string",
+          "description": "Item title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Item description"
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "version": {
+          "type": "string",
+          "description": "Version where completed (for completed items)"
+        },
+        "completed_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Completion date"
+        },
+        "target_quarter": {
+          "type": "string",
+          "pattern": "^Q[1-4] \\d{4}$",
+          "description": "Target quarter (e.g., 'Q2 2026')"
+        },
+        "target_version": {
+          "type": "string",
+          "description": "Target version (e.g., '0.12.0')"
+        },
+        "area": {
+          "type": "string",
+          "description": "Area ID (project component)"
+        },
+        "type": {
+          "type": "string",
+          "description": "Change type (aligns with structured-changelog: Added, Changed, Fixed, etc.)"
+        },
+        "phase": {
+          "type": "string",
+          "description": "Phase ID"
+        },
+        "priority": {
+          "$ref": "#/definitions/priority"
+        },
+        "order": {
+          "type": "integer",
+          "description": "Explicit sort order within groups"
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "IDs of items this depends on"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/task"
+          },
+          "description": "Sub-tasks with completion status"
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/contentBlock"
+          },
+          "description": "Rich content blocks"
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "required": ["description", "completed"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Task identifier"
+        },
+        "description": {
+          "type": "string",
+          "description": "Task description"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether task is completed"
+        },
+        "file_path": {
+          "type": "string",
+          "description": "Associated file path"
+        }
+      }
+    },
+    "contentBlock": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["text", "code", "diagram", "table", "list", "blockquote"],
+          "description": "Content block type"
+        },
+        "value": {
+          "type": "string",
+          "description": "Content value (for text, code, diagram, blockquote)"
+        },
+        "language": {
+          "type": "string",
+          "description": "Language for code blocks"
+        },
+        "format": {
+          "type": "string",
+          "description": "Format for diagrams (e.g., 'ascii', 'mermaid')"
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Table headers"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": "Table rows"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List items"
+        }
+      }
+    },
+    "section": {
+      "type": "object",
+      "required": ["id", "title"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Section identifier"
+        },
+        "title": {
+          "type": "string",
+          "description": "Section title"
+        },
+        "order": {
+          "type": "integer",
+          "description": "Sort order"
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/contentBlock"
+          },
+          "description": "Section content"
+        }
+      }
+    },
+    "versionEntry": {
+      "type": "object",
+      "required": ["version"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Version string"
+        },
+        "date": {
+          "type": ["string", "null"],
+          "format": "date",
+          "description": "Release date (null if not released)"
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "summary": {
+          "type": "string",
+          "description": "Version summary"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "external": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/externalDependency"
+          },
+          "description": "External SDK dependencies"
+        },
+        "internal": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/internalDependency"
+          },
+          "description": "Internal package dependencies"
+        }
+      }
+    },
+    "externalDependency": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Dependency name or import path"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["available", "build_client", "planned"],
+          "description": "Availability status"
+        },
+        "note": {
+          "type": "string",
+          "description": "Additional notes"
+        }
+      }
+    },
+    "internalDependency": {
+      "type": "object",
+      "required": ["package"],
+      "properties": {
+        "package": {
+          "type": "string",
+          "description": "Package path"
+        },
+        "depends_on": {
+          "oneOf": [
+            {"type": "string"},
+            {"type": "array", "items": {"type": "string"}}
+          ],
+          "description": "Dependencies"
+        }
+      }
+    }
+  }
+}
