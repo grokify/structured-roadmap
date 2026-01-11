@@ -19,13 +19,13 @@ The following repositories were reviewed to understand existing roadmap patterns
 
 | Repository | File |
 |------------|------|
-| `github.com/agentplexus/omnillm` | `ROADMAP.md` |
 | `github.com/agentplexus/agentkit` | `ROADMAP.md` |
+| `github.com/agentplexus/omnillm` | `ROADMAP.md` |
+| `github.com/agentplexus/omnivault` | `ROADMAP.md` |
 | `github.com/agentplexus/omnivoice` | `ROADMAP.md` |
 | `github.com/agentplexus/stats-agent-team` | `ROADMAP.md` |
-| `github.com/agentplexus/omnivault` | `ROADMAP.md` |
-| `github.com/grokify/traffic2openapi` | `ROADMAP.md` |
 | `github.com/grokify/omnistorage` | `ROADMAP.md` |
+| `github.com/grokify/traffic2openapi` | `ROADMAP.md` |
 
 ## Features Inventory
 
