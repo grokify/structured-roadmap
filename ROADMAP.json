@@ -1,0 +1,478 @@
+{
+  "ir_version": "1.0",
+  "project": "Structured Roadmap",
+  "repository": "https://github.com/grokify/structured-roadmap",
+
+  "legend": {
+    "completed": {"emoji": "✅", "description": "Completed"},
+    "in_progress": {"emoji": "🚧", "description": "In Progress"},
+    "planned": {"emoji": "📋", "description": "Planned"},
+    "future": {"emoji": "💡", "description": "Under Consideration"}
+  },
+
+  "areas": [
+    {"id": "core", "name": "Core", "priority": 1},
+    {"id": "cli", "name": "CLI", "priority": 2},
+    {"id": "renderer", "name": "Renderer", "priority": 3},
+    {"id": "integrations", "name": "Integrations", "priority": 4},
+    {"id": "distribution", "name": "Distribution", "priority": 5}
+  ],
+
+  "phases": [
+    {
+      "id": "v0.1",
+      "name": "v0.1.0 - Initial Release",
+      "status": "completed",
+      "order": 1,
+      "description": "Machine-readable JSON roadmaps with deterministic Markdown generation"
+    },
+    {
+      "id": "v0.2",
+      "name": "v0.2.0 - Distribution",
+      "status": "completed",
+      "order": 2,
+      "description": "GoReleaser, Homebrew, and enhanced table sorting"
+    },
+    {
+      "id": "v0.3",
+      "name": "v0.3.0 - Enhanced Output",
+      "status": "planned",
+      "order": 3,
+      "description": "Additional output formats and embedded visualizations"
+    },
+    {
+      "id": "v0.4",
+      "name": "v0.4.0 - Workflow Improvements",
+      "status": "planned",
+      "order": 4,
+      "description": "Better authoring and maintenance workflows"
+    },
+    {
+      "id": "v0.5",
+      "name": "v0.5.0 - Integrations",
+      "status": "planned",
+      "order": 5,
+      "description": "External tool integrations"
+    },
+    {
+      "id": "future",
+      "name": "Future",
+      "status": "future",
+      "order": 99,
+      "description": "Ideas under consideration"
+    }
+  ],
+
+  "items": [
+    {
+      "id": "json-ir",
+      "title": "JSON IR schema (v1.0)",
+      "description": "Machine-readable roadmap format with rich metadata",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "core",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "roadmap-pkg",
+      "title": "Roadmap package",
+      "description": "IR types, parsing, and validation",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "core",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "renderer-pkg",
+      "title": "Renderer package",
+      "description": "Deterministic Markdown generation",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "cli-commands",
+      "title": "CLI with validate, generate, stats, deps",
+      "description": "Core CLI subcommands for roadmap management",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "cli",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "two-dim-categorization",
+      "title": "Two-dimensional categorization",
+      "description": "Area (project component) + Type (change type)",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "core",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "grouping-strategies",
+      "title": "Multiple grouping strategies",
+      "description": "Group by area, type, phase, status, quarter, priority",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "phased-roadmaps",
+      "title": "Phased roadmaps with area sub-sections",
+      "description": "Support for large projects with hierarchical structure",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "rich-content",
+      "title": "Rich content blocks",
+      "description": "Text, code, diagram, table, list, blockquote",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "toc-progress",
+      "title": "Table of contents with progress counts",
+      "description": "TOC showing completion status per section",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "overview-table",
+      "title": "Overview table",
+      "description": "Summary table of all items",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "deps-graph",
+      "title": "Dependency graph generation",
+      "description": "Mermaid and DOT format graph output",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "cli",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "json-schema",
+      "title": "JSON Schema for validation",
+      "description": "Schema-based IR validation",
+      "status": "completed",
+      "version": "0.1.0",
+      "phase": "v0.1",
+      "area": "core",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "goreleaser",
+      "title": "GoReleaser configuration",
+      "description": "Multi-platform binary releases (Linux, macOS, Windows)",
+      "status": "completed",
+      "version": "0.2.0",
+      "phase": "v0.2",
+      "area": "distribution",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "homebrew",
+      "title": "Homebrew tap distribution",
+      "description": "Install via `brew install grokify/tap/sroadmap`",
+      "status": "completed",
+      "version": "0.2.0",
+      "phase": "v0.2",
+      "area": "distribution",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "version-cmd",
+      "title": "Version command",
+      "description": "Show build info (version, commit, date)",
+      "status": "completed",
+      "version": "0.2.0",
+      "phase": "v0.2",
+      "area": "cli",
+      "type": "Added",
+      "priority": "low"
+    },
+    {
+      "id": "overview-sorting",
+      "title": "Overview table sorting",
+      "description": "Sort by completion percentage then priority",
+      "status": "completed",
+      "version": "0.2.0",
+      "phase": "v0.2",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "concise-priority",
+      "title": "Concise priority labels",
+      "description": "P0, P1, P2, P3 format in table cells",
+      "status": "completed",
+      "version": "0.2.0",
+      "phase": "v0.2",
+      "area": "renderer",
+      "type": "Changed",
+      "priority": "low"
+    },
+    {
+      "id": "embed-mermaid",
+      "title": "Embed dependency graph in Markdown",
+      "description": "Option to include Mermaid diagram in generated ROADMAP.md",
+      "status": "planned",
+      "target_version": "0.3.0",
+      "phase": "v0.3",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "html-output",
+      "title": "HTML output format",
+      "description": "Generate standalone HTML with styling",
+      "status": "planned",
+      "target_version": "0.3.0",
+      "phase": "v0.3",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "progress-viz",
+      "title": "Progress visualization",
+      "description": "Progress bars or burndown charts in output",
+      "status": "planned",
+      "target_version": "0.3.0",
+      "phase": "v0.3",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "timeline-view",
+      "title": "Timeline/Gantt view",
+      "description": "Generate Gantt-style timeline from target dates",
+      "status": "planned",
+      "target_version": "0.3.0",
+      "phase": "v0.3",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "low"
+    },
+    {
+      "id": "init-cmd",
+      "title": "`sroadmap init` command",
+      "description": "Create starter ROADMAP.json interactively",
+      "status": "planned",
+      "target_version": "0.4.0",
+      "phase": "v0.4",
+      "area": "cli",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "watch-mode",
+      "title": "Watch mode for auto-regeneration",
+      "description": "`sroadmap generate --watch` to auto-regenerate on changes",
+      "status": "planned",
+      "target_version": "0.4.0",
+      "phase": "v0.4",
+      "area": "cli",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "diff-cmd",
+      "title": "`sroadmap diff` command",
+      "description": "Compare two roadmap versions and show changes",
+      "status": "planned",
+      "target_version": "0.4.0",
+      "phase": "v0.4",
+      "area": "cli",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "migrate-cmd",
+      "title": "`sroadmap migrate` command",
+      "description": "Migrate ROADMAP.json between schema versions",
+      "status": "planned",
+      "target_version": "0.4.0",
+      "phase": "v0.4",
+      "area": "cli",
+      "type": "Added",
+      "priority": "low"
+    },
+    {
+      "id": "stakeholder-filter",
+      "title": "Stakeholder view filtering",
+      "description": "Filter output by audience (dev, product, exec)",
+      "status": "planned",
+      "target_version": "0.4.0",
+      "phase": "v0.4",
+      "area": "renderer",
+      "type": "Added",
+      "priority": "low"
+    },
+    {
+      "id": "github-sync",
+      "title": "GitHub Issues/Projects sync",
+      "description": "Import from and export to GitHub Issues or Projects",
+      "status": "planned",
+      "target_version": "0.5.0",
+      "phase": "v0.5",
+      "area": "integrations",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "claude-plugin",
+      "title": "Claude Code plugin",
+      "description": "Plugin for AI-assisted roadmap management",
+      "status": "planned",
+      "target_version": "0.5.0",
+      "phase": "v0.5",
+      "area": "integrations",
+      "type": "Added",
+      "priority": "high"
+    },
+    {
+      "id": "schangelog-sync",
+      "title": "Structured Changelog sync",
+      "description": "Auto-move completed items to CHANGELOG.json",
+      "status": "planned",
+      "target_version": "0.5.0",
+      "phase": "v0.5",
+      "area": "integrations",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "jira-import",
+      "title": "Jira import",
+      "description": "Import roadmap items from Jira epics/stories",
+      "status": "future",
+      "phase": "future",
+      "area": "integrations",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "notion-export",
+      "title": "Notion export",
+      "description": "Export roadmap to Notion database",
+      "status": "future",
+      "phase": "future",
+      "area": "integrations",
+      "type": "Added",
+      "priority": "low"
+    },
+    {
+      "id": "linear-sync",
+      "title": "Linear sync",
+      "description": "Bidirectional sync with Linear projects",
+      "status": "future",
+      "phase": "future",
+      "area": "integrations",
+      "type": "Added",
+      "priority": "low"
+    },
+    {
+      "id": "velocity-tracking",
+      "title": "Velocity tracking",
+      "description": "Track completion velocity and predict timelines",
+      "status": "future",
+      "phase": "future",
+      "area": "core",
+      "type": "Added",
+      "priority": "medium"
+    },
+    {
+      "id": "multi-project",
+      "title": "Multi-project aggregation",
+      "description": "Aggregate roadmaps from multiple projects",
+      "status": "future",
+      "phase": "future",
+      "area": "core",
+      "type": "Added",
+      "priority": "low"
+    },
+    {
+      "id": "overdue-alerts",
+      "title": "Overdue item alerts",
+      "description": "Highlight items past their target date",
+      "status": "future",
+      "phase": "future",
+      "area": "cli",
+      "type": "Added",
+      "priority": "low"
+    }
+  ],
+
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "order": 1,
+      "content": [
+        {"type": "text", "value": "Structured Roadmap provides a machine-readable JSON intermediate representation for project roadmaps with deterministic Markdown generation. It is designed to complement [Structured Changelog](https://github.com/grokify/structured-changelog)."}
+      ]
+    },
+    {
+      "id": "references",
+      "title": "References",
+      "order": 99,
+      "content": [
+        {"type": "list", "items": [
+          "[PRD.md](PRD.md) - Product requirements",
+          "[CHANGELOG.md](CHANGELOG.md) - Release history",
+          "[Structured Changelog](https://github.com/grokify/structured-changelog) - Companion project"
+        ]}
+      ]
+    }
+  ],
+
+  "version_history": [
+    {"version": "0.1.0", "date": "2026-01-10", "status": "completed", "summary": "Initial release with JSON IR and Markdown generation"},
+    {"version": "0.2.0", "date": "2026-01-11", "status": "completed", "summary": "GoReleaser, Homebrew, enhanced sorting"},
+    {"version": "0.3.0", "date": null, "status": "planned", "summary": "Enhanced output formats"},
+    {"version": "0.4.0", "date": null, "status": "planned", "summary": "Workflow improvements"},
+    {"version": "0.5.0", "date": null, "status": "planned", "summary": "External integrations"}
+  ]
+}
