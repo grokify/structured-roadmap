@@ -2,6 +2,48 @@
 
 **Project:** Structured Roadmap
 
+## Summary
+
+| Item | Status | Priority | Area |
+|------|--------|----------|------|
+| [CLI with validate, generate, stats, deps](#cli-commands) | ✅ | High | CLI |
+| [GoReleaser configuration](#goreleaser) | ✅ | High | Distribution |
+| [Homebrew tap distribution](#homebrew) | ✅ | High | Distribution |
+| [JSON IR schema (v1.0)](#json-ir) | ✅ | High | Core |
+| [Multiple grouping strategies](#grouping-strategies) | ✅ | High | Renderer |
+| [Renderer package](#renderer-pkg) | ✅ | High | Renderer |
+| [Roadmap package](#roadmap-pkg) | ✅ | High | Core |
+| [Dependency graph generation](#deps-graph) | ✅ | Medium | CLI |
+| [JSON Schema for validation](#json-schema) | ✅ | Medium | Core |
+| [Overview table](#overview-table) | ✅ | Medium | Renderer |
+| [Overview table sorting](#overview-sorting) | ✅ | Medium | Renderer |
+| [Phased roadmaps with area sub-sections](#phased-roadmaps) | ✅ | Medium | Renderer |
+| [Rich content blocks](#rich-content) | ✅ | Medium | Renderer |
+| [Table of contents with progress counts](#toc-progress) | ✅ | Medium | Renderer |
+| [Two-dimensional categorization](#two-dim-categorization) | ✅ | Medium | Core |
+| [Concise priority labels](#concise-priority) | ✅ | Low | Renderer |
+| [Version command](#version-cmd) | ✅ | Low | CLI |
+| [Claude Code plugin](#claude-plugin) | 📋 | High | Integrations |
+| [Embed dependency graph in Markdown](#embed-mermaid) | 📋 | High | Renderer |
+| [GitHub Issues/Projects sync](#github-sync) | 📋 | High | Integrations |
+| [`sroadmap init` command](#init-cmd) | 📋 | High | CLI |
+| [HTML output format](#html-output) | 📋 | Medium | Renderer |
+| [Jira import](#jira-import) | 💡 | Medium | Integrations |
+| [Progress visualization](#progress-viz) | 📋 | Medium | Renderer |
+| [Structured Changelog sync](#schangelog-sync) | 📋 | Medium | Integrations |
+| [Velocity tracking](#velocity-tracking) | 💡 | Medium | Core |
+| [Watch mode for auto-regeneration](#watch-mode) | 📋 | Medium | CLI |
+| [`sroadmap diff` command](#diff-cmd) | 📋 | Medium | CLI |
+| [Linear sync](#linear-sync) | 💡 | Low | Integrations |
+| [Multi-project aggregation](#multi-project) | 💡 | Low | Core |
+| [Notion export](#notion-export) | 💡 | Low | Integrations |
+| [Overdue item alerts](#overdue-alerts) | 💡 | Low | CLI |
+| [Stakeholder view filtering](#stakeholder-filter) | 📋 | Low | Renderer |
+| [Timeline/Gantt view](#timeline-view) | 📋 | Low | Renderer |
+| [`sroadmap migrate` command](#migrate-cmd) | 📋 | Low | CLI |
+
+---
+
 ## Overview <a href="#roadmap">↑ Top</a>
 
 Structured Roadmap provides a machine-readable JSON intermediate representation for project roadmaps with deterministic Markdown generation. It is designed to complement [Structured Changelog](https://github.com/grokify/structured-changelog).

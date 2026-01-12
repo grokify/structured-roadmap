@@ -176,7 +176,7 @@ func renderLegend(sb *strings.Builder, r *roadmap.Roadmap) {
 }
 
 func renderOverviewTable(sb *strings.Builder, r *roadmap.Roadmap, opts Options) {
-	sb.WriteString("## Overview\n\n")
+	sb.WriteString("## Summary\n\n")
 	sb.WriteString("| Item | Status | Priority | Area |\n")
 	sb.WriteString("|------|--------|----------|------|\n")
 

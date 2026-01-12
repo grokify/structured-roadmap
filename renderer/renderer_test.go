@@ -196,8 +196,8 @@ func TestRenderOverviewTable(t *testing.T) {
 	opts.ShowOverviewTable = true
 	output := Render(r, opts)
 
-	if !strings.Contains(output, "## Overview") {
-		t.Error("Expected overview section")
+	if !strings.Contains(output, "## Summary") {
+		t.Error("Expected summary table section")
 	}
 	if !strings.Contains(output, "| Item | Status | Priority | Area |") {
 		t.Error("Expected table headers")

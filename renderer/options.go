@@ -89,7 +89,7 @@ func DefaultOptions() Options {
 		IntroText:           "",
 		ShowTOC:             false,
 		TOCDepth:            1,
-		ShowOverviewTable:   false,
+		ShowOverviewTable:   true,
 		ShowAreaSubheadings: false,
 		ShowNavLinks:        true,
 		ShowVersionHistory:  true,
