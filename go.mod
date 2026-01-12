@@ -3,7 +3,7 @@ module github.com/grokify/structured-roadmap
 go 1.23.0
 
 require (
-	github.com/grokify/structured-changelog v0.6.0
+	github.com/grokify/structured-changelog v0.7.0
 	github.com/spf13/cobra v1.10.2
 )
 

@@ -1,6 +1,6 @@
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
-github.com/grokify/structured-changelog v0.6.0 h1:xbH3DPOGuVRS1o44fOliErwekqXqb0zFoPYP0HxAM14=
-github.com/grokify/structured-changelog v0.6.0/go.mod h1:kc+/bodxxDjau7z3JW0NHodTX73yJsV+TN+cnbxa5Hw=
+github.com/grokify/structured-changelog v0.7.0 h1:jSasIpSmHY8LGaom3ykWdSn0ETfzC8WUSx5oeRYESO0=
+github.com/grokify/structured-changelog v0.7.0/go.mod h1:kc+/bodxxDjau7z3JW0NHodTX73yJsV+TN+cnbxa5Hw=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
