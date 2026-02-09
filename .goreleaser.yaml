@@ -3,7 +3,7 @@
 
 version: 2
 
-project_name: structured-roadmap
+project_name: structured-tasks
 
 before:
   hooks:
@@ -11,9 +11,9 @@ before:
     - go generate ./...
 
 builds:
-  - id: sroadmap
-    binary: sroadmap
-    main: ./cmd/sroadmap
+  - id: stasks
+    binary: stasks
+    main: ./cmd/stasks
     env:
       - CGO_ENABLED=0
     goos:
@@ -66,26 +66,26 @@ changelog:
 release:
   github:
     owner: grokify
-    name: structured-roadmap
+    name: structured-tasks
   draft: false
   prerelease: auto
   name_template: "v{{.Version}}"
 
 brews:
-  - name: structured-roadmap
+  - name: structured-tasks
     repository:
       owner: grokify
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
     directory: Formula
-    homepage: "https://github.com/grokify/structured-roadmap"
-    description: "CLI for machine-readable project roadmaps using JSON IR"
+    homepage: "https://github.com/grokify/structured-tasks"
+    description: "CLI for machine-readable project task lists using JSON IR"
     license: "MIT"
     install: |
-      bin.install "sroadmap"
-      bin.install_symlink "sroadmap" => "structured-roadmap"
+      bin.install "stasks"
+      bin.install_symlink "stasks" => "structured-tasks"
     test: |
-      system "#{bin}/sroadmap", "version"
+      system "#{bin}/stasks", "version"
     commit_author:
       name: goreleaserbot
       email: bot@goreleaser.com
