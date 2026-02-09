@@ -151,6 +151,20 @@ func statusSortOrder(s tasks.Status) int {
 	}
 }
 
+// isPhaseComplete returns true if all tasks in a phase are completed.
+func isPhaseComplete(tl *tasks.TaskList, phase int) bool {
+	hasAny := false
+	for _, task := range tl.Tasks {
+		if task.Phase == phase {
+			hasAny = true
+			if task.Status != tasks.StatusCompleted {
+				return false
+			}
+		}
+	}
+	return hasAny
+}
+
 func renderOverviewTable(sb *strings.Builder, tl *tasks.TaskList, opts Options) {
 	sb.WriteString("## Status\n\n")
 	sb.WriteString("| Task | Status | Phase | Area |\n")
@@ -162,6 +176,14 @@ func renderOverviewTable(sb *strings.Builder, tl *tasks.TaskList, opts Options) 
 	areaNames := make(map[string]string)
 	for _, area := range tl.Areas {
 		areaNames[area.ID] = area.Name
+	}
+
+	// Find completed phases (skip these in status table)
+	completedPhases := make(map[int]bool)
+	for _, phase := range tl.PhaseNumbers() {
+		if isPhaseComplete(tl, phase) {
+			completedPhases[phase] = true
+		}
 	}
 
 	// Sort tasks: by phase first, then by status (completed at bottom), then by title
@@ -191,6 +213,11 @@ func renderOverviewTable(sb *strings.Builder, tl *tasks.TaskList, opts Options) 
 	})
 
 	for _, task := range sorted {
+		// Skip tasks from fully completed phases
+		if completedPhases[task.Phase] {
+			continue
+		}
+		// Skip individual completed tasks if ShowCompleted is false
 		if task.Status == tasks.StatusCompleted && !opts.ShowCompleted {
 			continue
 		}
