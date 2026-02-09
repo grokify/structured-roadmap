@@ -42,7 +42,7 @@ func init() {
 	generateCmd.Flags().BoolVar(&genNoIntro, "no-intro", false, "Omit introductory paragraph")
 	generateCmd.Flags().BoolVar(&genTOC, "toc", false, "Show table of contents")
 	generateCmd.Flags().IntVar(&genTOCDepth, "toc-depth", 1, "TOC depth: 1 = sections only, 2 = sections + items")
-	generateCmd.Flags().BoolVar(&genOverview, "overview", false, "Show overview table")
+	generateCmd.Flags().BoolVar(&genOverview, "status-table", true, "Show status table at top")
 	generateCmd.Flags().BoolVar(&genAreaSubheadings, "area-subheadings", false, "Show area sub-sections within phases (use with --group-by phase)")
 	generateCmd.Flags().BoolVar(&genNumbered, "numbered", false, "Number items")
 	generateCmd.Flags().BoolVar(&genNoRules, "no-rules", false, "Omit horizontal rules between sections")

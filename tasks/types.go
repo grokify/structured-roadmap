@@ -55,11 +55,13 @@ type Task struct {
 	Area        string    `json:"area,omitempty"`
 	Type        string    `json:"type,omitempty"`
 	DependsOn   []string  `json:"depends_on,omitempty"`
+	Blocks      []string  `json:"blocks,omitempty"`
 	Subtasks    []Subtask `json:"subtasks,omitempty"`
 }
 
 // Subtask represents a checkbox item within a task.
 type Subtask struct {
+	ID          string `json:"id,omitempty"`
 	Description string `json:"description"`
 	Completed   bool   `json:"completed"`
 }

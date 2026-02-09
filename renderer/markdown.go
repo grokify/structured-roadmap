@@ -134,8 +134,25 @@ func renderLegend(sb *strings.Builder, tl *tasks.TaskList) {
 	sb.WriteString("\n")
 }
 
+// statusSortOrder returns the sort order for a status.
+// In-progress first, then planned, then future, then completed at the bottom.
+func statusSortOrder(s tasks.Status) int {
+	switch s {
+	case tasks.StatusInProgress:
+		return 0
+	case tasks.StatusPlanned:
+		return 1
+	case tasks.StatusFuture:
+		return 2
+	case tasks.StatusCompleted:
+		return 3
+	default:
+		return 4
+	}
+}
+
 func renderOverviewTable(sb *strings.Builder, tl *tasks.TaskList, opts Options) {
-	sb.WriteString("## Summary\n\n")
+	sb.WriteString("## Status\n\n")
 	sb.WriteString("| Task | Status | Phase | Area |\n")
 	sb.WriteString("|------|--------|-------|------|\n")
 
@@ -147,18 +164,29 @@ func renderOverviewTable(sb *strings.Builder, tl *tasks.TaskList, opts Options) 
 		areaNames[area.ID] = area.Name
 	}
 
-	// Sort tasks: completed first, then by phase, then by title
+	// Sort tasks: by phase first, then by status (completed at bottom), then by title
 	sorted := make([]tasks.Task, len(tl.Tasks))
 	copy(sorted, tl.Tasks)
 	sort.Slice(sorted, func(i, j int) bool {
-		iCompleted := sorted[i].Status == tasks.StatusCompleted
-		jCompleted := sorted[j].Status == tasks.StatusCompleted
-		if iCompleted != jCompleted {
-			return iCompleted
+		// Phase first (0 = unphased goes last)
+		iPhase := sorted[i].Phase
+		jPhase := sorted[j].Phase
+		if iPhase == 0 {
+			iPhase = 9999
 		}
-		if sorted[i].Phase != sorted[j].Phase {
-			return sorted[i].Phase < sorted[j].Phase
+		if jPhase == 0 {
+			jPhase = 9999
 		}
+		if iPhase != jPhase {
+			return iPhase < jPhase
+		}
+		// Within same phase, sort by status (completed at bottom)
+		iOrder := statusSortOrder(sorted[i].Status)
+		jOrder := statusSortOrder(sorted[j].Status)
+		if iOrder != jOrder {
+			return iOrder < jOrder
+		}
+		// Finally by title
 		return sorted[i].Title < sorted[j].Title
 	})
 
@@ -180,7 +208,7 @@ func renderOverviewTable(sb *strings.Builder, tl *tasks.TaskList, opts Options) 
 		// Phase
 		phase := "-"
 		if task.Phase > 0 {
-			phase = fmt.Sprintf("Phase %d", task.Phase)
+			phase = fmt.Sprintf("%d", task.Phase)
 		}
 
 		// Area name
@@ -374,12 +402,16 @@ func buildTOCEntries(tl *tasks.TaskList, opts Options) []tocEntry {
 }
 
 // sortTasks returns a sorted copy of tasks for consistent ordering.
+// Completed tasks are placed at the bottom within their group.
 func sortTasks(taskList []tasks.Task, _ Options) []tasks.Task {
 	sorted := make([]tasks.Task, len(taskList))
 	copy(sorted, taskList)
 	sort.Slice(sorted, func(i, j int) bool {
-		if sorted[i].Phase != sorted[j].Phase {
-			return sorted[i].Phase < sorted[j].Phase
+		// Within same phase, sort by status (completed at bottom)
+		iOrder := statusSortOrder(sorted[i].Status)
+		jOrder := statusSortOrder(sorted[j].Status)
+		if iOrder != jOrder {
+			return iOrder < jOrder
 		}
 		return sorted[i].Title < sorted[j].Title
 	})

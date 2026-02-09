@@ -1,18 +1,15 @@
 {
   "ir_version": "1.0",
-  "project": "my-project",
-  "items": [
+  "project": "My Project",
+  "tasks": [
     {
-      "id": "feature-1",
-      "title": "First Feature",
-      "description": "Add the first feature",
-      "status": "completed",
-      "version": "1.0.0"
+      "id": "task-1",
+      "title": "First task",
+      "status": "in_progress"
     },
     {
-      "id": "feature-2",
-      "title": "Second Feature",
-      "description": "Add the second feature",
+      "id": "task-2",
+      "title": "Second task",
       "status": "planned"
     }
   ]
