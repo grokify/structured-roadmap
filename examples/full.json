@@ -1,5 +1,5 @@
 {
-  "ir_version": "1.0",
+  "irVersion": "1.0",
   "project": "Example Project",
 
   "legend": {
@@ -48,7 +48,7 @@
       "phase": 1,
       "area": "api",
       "type": "Added",
-      "depends_on": ["auth", "database"]
+      "dependsOn": ["auth", "database"]
     },
     {
       "id": "caching",
@@ -67,7 +67,7 @@
       "phase": 2,
       "area": "docs",
       "type": "Added",
-      "depends_on": ["api-endpoints"]
+      "dependsOn": ["api-endpoints"]
     },
     {
       "id": "graphql",

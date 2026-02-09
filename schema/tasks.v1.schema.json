@@ -4,9 +4,9 @@
   "title": "Structured Tasks IR",
   "description": "Intermediate Representation for project task lists",
   "type": "object",
-  "required": ["ir_version", "project"],
+  "required": ["irVersion", "project"],
   "properties": {
-    "ir_version": {
+    "irVersion": {
       "type": "string",
       "description": "Schema version",
       "enum": ["1.0"]
@@ -20,7 +20,7 @@
       "format": "uri",
       "description": "Repository URL"
     },
-    "generated_at": {
+    "generatedAt": {
       "type": "string",
       "format": "date-time",
       "description": "Generation timestamp"
@@ -60,7 +60,7 @@
         "$ref": "#/definitions/section"
       }
     },
-    "version_history": {
+    "versionHistory": {
       "type": "array",
       "description": "Version milestones",
       "items": {
@@ -162,17 +162,17 @@
           "type": "string",
           "description": "Version where completed (for completed items)"
         },
-        "completed_date": {
+        "completedDate": {
           "type": "string",
           "format": "date",
           "description": "Completion date"
         },
-        "target_quarter": {
+        "targetQuarter": {
           "type": "string",
           "pattern": "^Q[1-4] \\d{4}$",
           "description": "Target quarter (e.g., 'Q2 2026')"
         },
-        "target_version": {
+        "targetVersion": {
           "type": "string",
           "description": "Target version (e.g., '0.12.0')"
         },
@@ -195,7 +195,7 @@
           "type": "integer",
           "description": "Explicit sort order within groups"
         },
-        "depends_on": {
+        "dependsOn": {
           "type": "array",
           "items": {
             "type": "string"
@@ -234,7 +234,7 @@
           "type": "boolean",
           "description": "Whether task is completed"
         },
-        "file_path": {
+        "filePath": {
           "type": "string",
           "description": "Associated file path"
         }
@@ -363,7 +363,7 @@
         },
         "status": {
           "type": "string",
-          "enum": ["available", "build_client", "planned"],
+          "enum": ["available", "buildClient", "planned"],
           "description": "Availability status"
         },
         "note": {
@@ -380,7 +380,7 @@
           "type": "string",
           "description": "Package path"
         },
-        "depends_on": {
+        "dependsOn": {
           "oneOf": [
             {"type": "string"},
             {"type": "array", "items": {"type": "string"}}

@@ -28,7 +28,7 @@ func TestValidateCommand(t *testing.T) {
 	// Create a temporary valid JSON file
 	tmpDir := t.TempDir()
 	validJSON := `{
-		"ir_version": "1.0",
+		"irVersion": "1.0",
 		"project": "test-project",
 		"tasks": [
 			{"id": "task-1", "title": "Feature 1", "status": "completed"}
@@ -41,7 +41,7 @@ func TestValidateCommand(t *testing.T) {
 
 	// Create an invalid JSON file
 	invalidJSON := `{
-		"ir_version": "1.0"
+		"irVersion": "1.0"
 	}`
 	invalidFile := filepath.Join(tmpDir, "invalid.json")
 	if err := os.WriteFile(invalidFile, []byte(invalidJSON), 0600); err != nil {
@@ -93,7 +93,7 @@ func TestGenerateCommand(t *testing.T) {
 	// Create a temporary valid JSON file
 	tmpDir := t.TempDir()
 	validJSON := `{
-		"ir_version": "1.0",
+		"irVersion": "1.0",
 		"project": "Test Project",
 		"areas": [
 			{"id": "core", "name": "Core Features"}
@@ -176,7 +176,7 @@ func TestStatsCommand(t *testing.T) {
 	// Create a temporary JSON file
 	tmpDir := t.TempDir()
 	validJSON := `{
-		"ir_version": "1.0",
+		"irVersion": "1.0",
 		"project": "Test Project",
 		"tasks": [
 			{"id": "1", "title": "Task 1", "status": "completed"},
@@ -215,12 +215,12 @@ func TestDepsCommand(t *testing.T) {
 	// Create a temporary JSON file with dependencies
 	tmpDir := t.TempDir()
 	validJSON := `{
-		"ir_version": "1.0",
+		"irVersion": "1.0",
 		"project": "Test Project",
 		"tasks": [
 			{"id": "task-1", "title": "Foundation", "status": "completed"},
-			{"id": "task-2", "title": "Feature A", "status": "planned", "depends_on": ["task-1"]},
-			{"id": "task-3", "title": "Feature B", "status": "planned", "depends_on": ["task-1", "task-2"]}
+			{"id": "task-2", "title": "Feature A", "status": "planned", "dependsOn": ["task-1"]},
+			{"id": "task-3", "title": "Feature B", "status": "planned", "dependsOn": ["task-1", "task-2"]}
 		]
 	}`
 	inputFile := filepath.Join(tmpDir, "TASKS.json")

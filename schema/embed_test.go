@@ -34,7 +34,7 @@ func TestSchemaV1Embedded(t *testing.T) {
 	hasIRVersion := false
 	hasProject := false
 	for _, r := range required {
-		if r == "ir_version" {
+		if r == "irVersion" {
 			hasIRVersion = true
 		}
 		if r == "project" {
@@ -42,7 +42,7 @@ func TestSchemaV1Embedded(t *testing.T) {
 		}
 	}
 	if !hasIRVersion {
-		t.Error("Expected 'ir_version' in required fields")
+		t.Error("Expected 'irVersion' in required fields")
 	}
 	if !hasProject {
 		t.Error("Expected 'project' in required fields")

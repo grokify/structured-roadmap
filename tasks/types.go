@@ -24,7 +24,7 @@ func DefaultLegend() map[Status]LegendEntry {
 
 // TaskList is the top-level IR structure for a project task list.
 type TaskList struct {
-	IRVersion string                 `json:"ir_version"`
+	IRVersion string                 `json:"irVersion"`
 	Project   string                 `json:"project"`
 	Legend    map[Status]LegendEntry `json:"legend,omitempty"`
 	Areas     []Area                 `json:"areas,omitempty"`
@@ -54,7 +54,7 @@ type Task struct {
 	Phase       int       `json:"phase,omitempty"`
 	Area        string    `json:"area,omitempty"`
 	Type        string    `json:"type,omitempty"`
-	DependsOn   []string  `json:"depends_on,omitempty"`
+	DependsOn   []string  `json:"dependsOn,omitempty"`
 	Blocks      []string  `json:"blocks,omitempty"`
 	Subtasks    []Subtask `json:"subtasks,omitempty"`
 }
