@@ -1,9 +1,9 @@
 module github.com/grokify/structured-tasks
 
-go 1.24.0
+go 1.25.0
 
 require (
-	github.com/grokify/structured-changelog v0.10.0
+	github.com/grokify/structured-changelog v0.12.0
 	github.com/spf13/cobra v1.10.2
 )
 
